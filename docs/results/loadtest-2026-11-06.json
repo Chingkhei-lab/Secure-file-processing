@@ -1,0 +1,17 @@
+{
+  "uploads_sent": 1000,
+  "malware_planted": 57,
+  "accepted": 1000,
+  "rejected": 0,
+  "reject_statuses": [],
+  "upload_phase_seconds": 24.63,
+  "upload_rate_per_second": 40.6,
+  "upload_latency_ms": {"p50": 1196.6, "p95": 1986.6, "p99": 2554.3, "max": 3578.4},
+  "all_processed_seconds": 246.68,
+  "time_to_final_state_s": {"median": 185.2, "p95": 239.27},
+  "final_states": {"stored": 943, "infected": 57, "failed": 0, "other": 0},
+  "not_finished": 0,
+  "MALWARE_STORED": 0,
+  "malware_not_marked_infected": [],
+  "clean_files_not_stored": 0
+}

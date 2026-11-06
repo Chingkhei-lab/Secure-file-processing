@@ -1,0 +1,97 @@
+{
+  "uploads": 17,
+  "unique_files": 17,
+  "duplicate_uploads": 0,
+  "rejected": {},
+  "logical_bytes": 1501884,
+  "unique_original_bytes": 1501884,
+  "compression_only_bytes": 1107511,
+  "physical_bytes": 1107511,
+  "reduction": {
+    "compression_only": 0.26258552591278683,
+    "dedupe_only": 0.0,
+    "combined": 0.26258552591278683,
+    "compression_on_unique_files": 0.26258552591278683
+  },
+  "sensitivity": [
+    {
+      "duplicate_share": 0.0,
+      "combined_reduction": 0.26258552591278683
+    },
+    {
+      "duplicate_share": 0.1,
+      "combined_reduction": 0.3363269733215082
+    },
+    {
+      "duplicate_share": 0.2,
+      "combined_reduction": 0.4100684207302294
+    },
+    {
+      "duplicate_share": 0.3,
+      "combined_reduction": 0.48380986813895077
+    }
+  ],
+  "cost": {
+    "price_per_gb_month": 0.023,
+    "without_optimisation_per_month": 3.217098489403725e-05,
+    "with_optimisation_per_month": 2.3723349906504155e-05,
+    "saved_per_month": 8.447634987533094e-06,
+    "per_tb_without": 23.552,
+    "per_tb_with": 17.367585693702043
+  },
+  "by_type": {
+    ".csv": {
+      "unique_files": 4,
+      "original_bytes": 15847,
+      "stored_bytes": 7560,
+      "reduction": 0.5229380955385877,
+      "methods": {
+        "zstd": 4
+      }
+    },
+    ".json": {
+      "unique_files": 2,
+      "original_bytes": 63040,
+      "stored_bytes": 11975,
+      "reduction": 0.8100412436548223,
+      "methods": {
+        "none": 1,
+        "zstd": 1
+      }
+    },
+    ".pdf": {
+      "unique_files": 4,
+      "original_bytes": 728670,
+      "stored_bytes": 692734,
+      "reduction": 0.049317249234907434,
+      "methods": {
+        "pdf_opt": 4
+      }
+    },
+    ".png": {
+      "unique_files": 4,
+      "original_bytes": 690610,
+      "stored_bytes": 393154,
+      "reduction": 0.43071487525520913,
+      "methods": {
+        "webp": 4
+      }
+    },
+    ".txt": {
+      "unique_files": 3,
+      "original_bytes": 3717,
+      "stored_bytes": 2088,
+      "reduction": 0.43825665859564167,
+      "methods": {
+        "zstd": 3
+      }
+    }
+  },
+  "seconds": 0.9724334980128333,
+  "settings": {
+    "image_mode": "lossless",
+    "image_quality": 80,
+    "zstd_level": 15,
+    "max_image_pixels": 50000000
+  }
+}

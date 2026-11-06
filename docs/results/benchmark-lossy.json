@@ -1,0 +1,98 @@
+{
+  "uploads": 17,
+  "unique_files": 17,
+  "duplicate_uploads": 0,
+  "rejected": {},
+  "logical_bytes": 1501884,
+  "unique_original_bytes": 1501884,
+  "compression_only_bytes": 849413,
+  "physical_bytes": 849413,
+  "reduction": {
+    "compression_only": 0.4344350162862112,
+    "dedupe_only": 0.0,
+    "combined": 0.4344350162862112,
+    "compression_on_unique_files": 0.4344350162862112
+  },
+  "sensitivity": [
+    {
+      "duplicate_share": 0.0,
+      "combined_reduction": 0.4344350162862112
+    },
+    {
+      "duplicate_share": 0.1,
+      "combined_reduction": 0.49099151465759006
+    },
+    {
+      "duplicate_share": 0.2,
+      "combined_reduction": 0.5475480130289689
+    },
+    {
+      "duplicate_share": 0.3,
+      "combined_reduction": 0.6041045114003478
+    }
+  ],
+  "cost": {
+    "price_per_gb_month": 0.023,
+    "without_optimisation_per_month": 3.217098489403725e-05,
+    "with_optimisation_per_month": 1.819478254765272e-05,
+    "saved_per_month": 1.3976202346384527e-05,
+    "per_tb_without": 23.552,
+    "per_tb_with": 13.320186496427155
+  },
+  "by_type": {
+    ".csv": {
+      "unique_files": 4,
+      "original_bytes": 15847,
+      "stored_bytes": 7560,
+      "reduction": 0.5229380955385877,
+      "methods": {
+        "zstd": 4
+      }
+    },
+    ".json": {
+      "unique_files": 2,
+      "original_bytes": 63040,
+      "stored_bytes": 11975,
+      "reduction": 0.8100412436548223,
+      "methods": {
+        "none": 1,
+        "zstd": 1
+      }
+    },
+    ".pdf": {
+      "unique_files": 4,
+      "original_bytes": 728670,
+      "stored_bytes": 692734,
+      "reduction": 0.049317249234907434,
+      "methods": {
+        "pdf_opt": 4
+      }
+    },
+    ".png": {
+      "unique_files": 4,
+      "original_bytes": 690610,
+      "stored_bytes": 135056,
+      "reduction": 0.8044395534382647,
+      "methods": {
+        "webp": 2,
+        "none": 2
+      }
+    },
+    ".txt": {
+      "unique_files": 3,
+      "original_bytes": 3717,
+      "stored_bytes": 2088,
+      "reduction": 0.43825665859564167,
+      "methods": {
+        "zstd": 3
+      }
+    }
+  },
+  "seconds": 0.9435625420010183,
+  "settings": {
+    "image_mode": "lossy",
+    "image_quality": 80,
+    "zstd_level": 15,
+    "max_image_pixels": 50000000
+  }
+}

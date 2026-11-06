@@ -26,12 +26,12 @@ flowchart LR
 Job states: `quarantined` -> `scanning` -> `clean` -> `storing` -> `stored`,
 with `infected` and `failed` as terminal states.
 
-## Results (measured, reproducible)
+## Results (measured)
 
 ### Security / load test
 
-`python -m app.loadtest --uploads 1000 --concurrency 50` on a laptop
-(Docker Compose, one API process, one worker):
+`python -m app.loadtest --uploads 1000 --concurrency 50` on a 6-core, 7 GB
+laptop (Docker Compose, one API process, one worker):
 
 | Measure | Result |
 |---|---|
@@ -45,23 +45,30 @@ with `infected` and `failed` as terminal states.
 1,000 uploads a day is roughly one every 86 seconds; this test sends a full
 day of volume in minutes. EICAR is a standard antivirus test file: it proves
 the scan-and-quarantine pipeline works, not ClamAV's detection rate on
-real-world malware.
+real-world malware. Raw results are in `docs/results/`.
 
 ### Storage reduction
 
-`python -m app.benchmark --corpus <folder>`. Compression-only figures:
+`python -m app.benchmark --corpus <folder>` on a 17-file mixed corpus
+(1.43 MB; no duplicate uploads, so these figures are compression only):
 
-| Corpus | Lossy images (WebP q80) | Lossless images |
+| File type | Files | Saved |
 |---|---|---|
-| 17 mixed files (1.43 MB: 4 CSV, 2 JSON, 4 PDF, 4 PNG, 3 TXT) | 43.4% | 26.3% |
-| 143 mixed files (17 MB, PDF-heavy) | 35.2% | not run |
+| CSV | 4 | 52.3% |
+| JSON | 2 | 81.0% |
+| TXT | 3 | 43.8% |
+| PNG | 4 | 80.4% lossy WebP / 43.1% lossless |
+| PDF | 4 | 4.9% |
+| **All files** | 17 | **43.4% lossy / 26.3% lossless** |
 
-Savings depend heavily on the file mix: text, JSON and CSV shrink 50-95%,
-images 58-88% (lossy), and PDFs only about 5-11%. Lossy WebP changes image
+This is a small corpus, so treat it as indicative, not a guarantee. Savings
+depend heavily on the file mix: text and structured data compress well, images
+depend on the image mode, and PDFs barely shrink. Lossy WebP changes image
 pixels. Deduplication adds more only when the same file is uploaded repeatedly,
-which depends on your traffic, so it is reported separately.
-Estimated cost uses an S3 Standard price of $0.023/GB-month, which is a
-configurable assumption to check against AWS pricing.
+which depends on traffic, so it is reported separately. The corpus is not
+included in this repository; `--synthetic` generates a demo corpus, but its
+numbers are illustrative only. Estimated cost uses an S3 Standard price of
+$0.023/GB-month, an assumption to check against AWS pricing.
 
 ## Features
 
@@ -71,14 +78,15 @@ configurable assumption to check against AWS pricing.
 * Compression: images to WebP, text/CSV/JSON with zstd, PDFs optimised
 * Global dedupe by SHA-256
 * Archive table, nightly maintenance, index audit, and S3 lifecycle setup
-* 207 automated tests against real PostgreSQL, Redis and S3
+* 211 automated tests against real PostgreSQL, Redis and S3
 
 See [SECURITY.md](SECURITY.md) for the threat model and its limits.
 
 ## Quick start
 
 ```bash
-cp .env.example .env     # then set POSTGRES_PASSWORD and SIGNING_MASTER_SECRET
+cp .env.example .env        # then set POSTGRES_PASSWORD and SIGNING_MASTER_SECRET
+Copy-Item .env.example .env # PowerShell alternative
 docker compose up -d --build
 docker compose exec api alembic upgrade head
 docker compose exec api python -m app.s3setup apply
@@ -88,8 +96,13 @@ docker compose exec api python -m app.cli create-key --name demo
 Upload with the reference client:
 
 ```bash
+docker compose cp photo.png api:/tmp/photo.png
 docker compose exec api python -m app.client upload --key <KEY> --secret <SECRET> --file /tmp/photo.png
 ```
+
+Note: the load test sends 1000 signed uploads in minutes, which exceeds the
+default rate limit. Set `RATE_LIMIT_PER_MINUTE=100000` for the test only, then
+restore it.
 
 ## Tools
 
