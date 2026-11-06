@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create test environment file
+        run: |
+          cp .env.example .env
+          {
+            echo ""
+            echo "POSTGRES_PASSWORD=ci_$(openssl rand -hex 8)"
+            echo "SIGNING_MASTER_SECRET=$(openssl rand -hex 32)"
+          } >> .env
+
+      - name: Build and start services
+        run: docker compose up -d --build
+
+      - name: Wait for the API container and database
+        run: |
+          for i in $(seq 1 60); do
+            if docker compose exec -T api python -c "import socket,sys; socket.create_connection(('postgres',5432),2)" 2>/dev/null; then
+              echo "postgres reachable"; exit 0
+            fi
+            sleep 3
+          done
+          docker compose logs
+          exit 1
+
+      - name: Migrate
+        run: docker compose exec -T api alembic upgrade head
+
+      - name: Prepare S3 bucket
+        run: docker compose exec -T api python -m app.s3setup apply
+
+      - name: Run tests
+        run: docker compose exec -T api pytest -q
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs --tail=200
