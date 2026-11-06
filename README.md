@@ -85,8 +85,18 @@ See [SECURITY.md](SECURITY.md) for the threat model and its limits.
 ## Quick start
 
 ```bash
-cp .env.example .env        # then set POSTGRES_PASSWORD and SIGNING_MASTER_SECRET
-Copy-Item .env.example .env # PowerShell alternative
+# macOS / Linux
+cp .env.example .env
+```
+
+```powershell
+# Windows PowerShell
+Copy-Item .env.example .env
+```
+
+Then set `POSTGRES_PASSWORD` and `SIGNING_MASTER_SECRET` in `.env`, and run:
+
+```bash
 docker compose up -d --build
 docker compose exec api alembic upgrade head
 docker compose exec api python -m app.s3setup apply
